@@ -21,8 +21,10 @@ const app = express();
 
 // Cargar archivos de rutas
 let app_routes = require('./routes/app.routes');
+let user_routes = require('./routes/user.routes');
 let proforma_routes = require('./routes/proforma.routes');
 let producto_routes = require('./routes/producto.routes');
+
 
 // Midlewares API - Configuración
 app.use(bodyParser.json({
@@ -61,8 +63,10 @@ app.use('/static', express.static('uploads'));
 
 // Rutas
 app.use('/', app_routes);
+app.use('/api', user_routes);
 app.use('/api/proforma', proforma_routes);
 app.use('/api/producto', producto_routes);
+
 
 // Conexión con la base de datos
 mongoose

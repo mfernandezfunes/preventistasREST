@@ -26,6 +26,15 @@ const ProductoSchema = Schema({
         trim: true,
         required: true
     },
+    price: {
+        type: Number,
+        default: 0
+    },
+    /*
+        category: {
+            type: String,
+            enum: ['Jabones', 'Limieza', 'Papeles']
+        },*/
     category_id: {
         type: Array
     },
