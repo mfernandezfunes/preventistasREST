@@ -20,7 +20,7 @@ const UserSchema = new Schema({
     // a la información de los usuarios desde el cliente
     password: {
         type: String,
-        select: false
+        select: true
     },
     signupDate: {
         type: Date,

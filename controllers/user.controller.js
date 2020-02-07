@@ -42,7 +42,8 @@ function signIn(req, res) {
     // Se busca al usuario por su email
     if (req.body.email) { // Chequeo que me manden un email por body
         User.findOne({
-            email: req.body.email
+            email: req.body.email,
+            password: req.body.password
         }, (err, user) => {
             if (err) return res.status(500).send({
                 message: `Ha ocurrido un error interno: ${err}`
@@ -55,13 +56,24 @@ function signIn(req, res) {
 
             console.log(user);
 
-            res.status(200).send({
-                message: 'Access Granted ^_^',
-                // Se crea un nuevo token 
-                token: service.createToken(user),
-                // Se suministra la foto de perfil del usuario
-                imgProfile: user.gravatar()
-            })
+            if (user.email == req.body.email && user.password == req.body.password) {
+                console.log(`Access Granted >>>>>> ${user}`);
+
+                res.status(200).send({
+                    message: 'Access Granted ^_^',
+                    // Se crea un nuevo token 
+                    token: service.createToken(user),
+                    // Se suministra la foto de perfil del usuario
+                    imgProfile: user.gravatar()
+                })
+            } else {
+                console.log(`La contraseña ingresada no corresponde con el email ${user}`);
+                return res.status(404).send({
+                    message: 'La contraseña ingresada no corresponde con el email'
+                });
+            }
+
+
         });
     } else
         return res.status(500).send({
@@ -79,7 +91,11 @@ function deleteUser(req, res) {
         email: req.body.email
     }, (err, user) => {
         if (err) return res.status(500).send({
-            message: `Ha ocurrido un error interno: ${err}`
+            message: `
+                                Ha ocurrido un error interno: $ {
+                                    err
+                                }
+                                `
         });
         if (!user) return res.status(404).send({
             message: 'No existe el usuario'
@@ -87,7 +103,11 @@ function deleteUser(req, res) {
 
         user.remove(err => {
             if (err) res.status(500).send({
-                message: `Ha ocurrido un error al intentar borrar el usuario: ${err}`
+                message: `
+                                Ha ocurrido un error al intentar borrar el usuario: $ {
+                                    err
+                                }
+                                `
             });
             res.status(200).send({
                 message: 'El usuario fue eliminado exitosamente.'
