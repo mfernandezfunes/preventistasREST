@@ -14,7 +14,7 @@ const UserSchema = new Schema({
         unique: true,
         lowercase: true
     },
-    displayname: String,
+    displayName: String,
     avatar: String,
     // Con select: false se evitan problemas de seguridad cuando se hace GET
     // a la información de los usuarios desde el cliente

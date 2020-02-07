@@ -21,16 +21,19 @@ function signUp(req, res) {
     });
 
     user.save((err) => {
-        if (err) res.status(500).send({
-            message: `Error en la creación de usuario: ${err}`
-        });
-
-        // El jwt será creado a través de un servicio externo para
-        // garantizar la escalabilidad futura y modularización del
-        // código.	
-        return res.status(201).send({
-            token: service.createToken(user)
-        })
+        if (err) {
+            res.status(500).send({
+                message: `Error en la creación de usuario: ${err.errmsg}`
+            });
+            console.log(err.errmsg);
+        } else {
+            // El jwt será creado a través de un servicio externo para
+            // garantizar la escalabilidad futura y modularización del
+            // código.	
+            return res.status(201).send({
+                token: service.createToken(user)
+            })
+        }
     })
 };
 
